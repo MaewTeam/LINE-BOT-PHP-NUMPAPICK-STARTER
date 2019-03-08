@@ -2,36 +2,86 @@
 #include <MicroGear.h>
 #include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
-const char* ssid     = "your SSID"; //change this to your SSID
-const char* password = "your PASSWORD"; //change this to your PASSWORD
-
-const char* host = "your linebot server";//change this to your linebot server ex.http://numpapick-linebot.herokuapp.com/bot.php
-#define APPID   "your APPID"     //change this to your APPID
-#define KEY     "your KEY"     //change this to your KEY
-#define SECRET  "your SECRET"     //change this to your SECRET
+const char* ssid     = "EnGeniusE37C98"; //change this to your SSI from Your Wireless LAN Netowork
+const char* password = "elecnet123"; //change this to your PASSWORD from Your Wireless LAN Netowork
+//ตรงนี้ ต้องระวังไม่ต้องใส่ https นะครับ ให้ใช้ http เฉยๆ 
+const char* host = "http://maew-linebot-php.herokuapp.com/bot.php";//change this to your linebot server ex.http://numpapick-linebot.herokuapp.com/bot.php
+#define APPID   "maewbot"     //change this to your APPID from netpie ตรงนี้ ใช้ของเว็บ netpie
+#define KEY     "R6Qxt5GF4FLe10S"     //change this to your KEY from netpie ตรงนี้ ใช้ของเว็บ netpie
+#define SECRET  "LCvB4UmI5H99ShPKh4ypUXhP9"     //change this to your SECRET from netpie ตรงนี้ ใช้ของเว็บ netpie
 
 #define ALIAS   "NodeMCU1" //set name of drvice
 #define TargetWeb "switch" //set target name of web
 
 WiFiClient client;
 String uid = "";
+String text_in = "";
 int timer = 0;
 MicroGear microgear(client);
+void beep(int i){
+    int cnt = 0;
+     for(cnt=0;cnt<=i;cnt++){
+        digitalWrite(LED_BUILTIN, HIGH);   
+        delay(100);
+        digitalWrite(LED_BUILTIN, LOW);
+        delay(100);
+     }
+}
 
 void onMsghandler(char *topic, uint8_t* msg, unsigned int msglen) { // 
-    Serial.print("Incoming message -->");
+    Serial.print("\n Incoming message -->");
+    
     msg[msglen] = '\0';
-Serial.println((char *)msg);
+    Serial.println((char *)msg);
+    text_in = (char *)msg;
     if(*(char *)msg == '1'){
         digitalWrite(LED_BUILTIN, LOW);   // LED on
-        //microgear.chat(TargetWeb,"1");
+        Serial.println("\n=>");Serial.print("LED On1\n");Serial.print(text_in);
+       // microgear.chat(TargetWeb,"1");
+        //send_data("ESP_LED_ON");
+          send_json("ESP LED ON");
+    }else if(*(char *)msg ==  'On'){
+        digitalWrite(LED_BUILTIN, LOW);   // LED on
+        Serial.println("=>");Serial.print("LED On2\n");
+       // microgear.chat(TargetWeb,"1");
         //send_data("ESP_LED_ON");
         send_json("ESP LED ON");
-    }else{
+    }else if(*(char *)msg == '0'){
         digitalWrite(LED_BUILTIN, HIGH);  // LED off
-      //microgear.chat(TargetWeb,"0");
+        Serial.println("=>");Serial.print("LED Off1\n");
+    //  microgear.chat(TargetWeb,"0");
       //send_data("ESP_LED_OFF");
       send_json("ESP LED OFF");
+    }else if(*(char *)msg ==  'OFF' ){
+        digitalWrite(LED_BUILTIN, HIGH);   // LED off
+        Serial.println("=>");Serial.print("LED Off2\n");
+       // microgear.chat(TargetWeb,"1");
+        //send_data("ESP_LED_OFF");
+        send_json("ESP LED OFF");
+    }else if(text_in == "m1" || "s1"){
+        beep(5);
+        Serial.println("=>");Serial.print("Function 1 Show Temp\n");
+       // microgear.chat(TargetWeb,"1");
+        //send_data("ESP_LED_ON");
+        send_json("ESP LED ON");
+    }else if(text_in == "m2"|| "s2"){
+        beep(3);
+        Serial.println("=>");Serial.print("Function 2 Show image\n");
+       // microgear.chat(TargetWeb,"1");
+        //send_data("ESP_LED_ON");
+        send_json("ESP LED ON");
+    }else if(text_in == "m3" || "s3"){
+        beep(5);
+        Serial.println("=>");Serial.print("Function 3 on lamp \n");
+       // microgear.chat(TargetWeb,"1");
+        //send_data("ESP_LED_ON");
+        send_json("ESP LED ON");
+    }else if(text_in == "m4"|| "s4"){
+        beep(3);
+        Serial.println("=>");Serial.print("Function 4 off LAmp \n");
+       // microgear.chat(TargetWeb,"1");
+        //send_data("ESP_LED_ON");
+        send_json("ESP LED ON");
     }
 }
 
@@ -57,13 +107,13 @@ void setup() {
         }
     }
 
-Serial.println("WiFi connected");
+    Serial.println("WiFi connected");
     Serial.println("IP address: ");
     Serial.println(WiFi.localIP());
 
     microgear.init(KEY,SECRET,ALIAS);
     microgear.connect(APPID);
-     digitalWrite(LED_BUILTIN, HIGH);   // LED on
+    digitalWrite(LED_BUILTIN, HIGH);   // LED on
 }
 
 void send_json(String data){
@@ -97,7 +147,7 @@ void send_json(String data){
 }
 void loop() {
     if (microgear.connected()) {
-        Serial.println("..."); 
+        Serial.print("."); 
         microgear.loop();
         timer = 0;
     }
