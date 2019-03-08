@@ -58,25 +58,25 @@ void onMsghandler(char *topic, uint8_t* msg, unsigned int msglen) { //
        // microgear.chat(TargetWeb,"1");
         //send_data("ESP_LED_OFF");
         send_json("ESP LED OFF");
-    }else if(text_in == "m1" || "s1"){
+    }else if(text_in == "m1"){
         beep(5);
-        Serial.println("=>");Serial.print("Function 1 Show Temp\n");
+        Serial.println(text_in);Serial.print("Function 1 Show Temp\n");
        // microgear.chat(TargetWeb,"1");
         //send_data("ESP_LED_ON");
         send_json("ESP LED ON");
-    }else if(text_in == "m2"|| "s2"){
+    }else if(text_in == "m2"){
         beep(3);
         Serial.println("=>");Serial.print("Function 2 Show image\n");
        // microgear.chat(TargetWeb,"1");
         //send_data("ESP_LED_ON");
         send_json("ESP LED ON");
-    }else if(text_in == "m3" || "s3"){
+    }else if(text_in == "m3"){
         beep(5);
         Serial.println("=>");Serial.print("Function 3 on lamp \n");
        // microgear.chat(TargetWeb,"1");
         //send_data("ESP_LED_ON");
         send_json("ESP LED ON");
-    }else if(text_in == "m4"|| "s4"){
+    }else if(text_in == "m4"){
         beep(3);
         Serial.println("=>");Serial.print("Function 4 off LAmp \n");
        // microgear.chat(TargetWeb,"1");
