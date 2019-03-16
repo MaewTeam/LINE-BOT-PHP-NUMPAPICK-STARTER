@@ -1,5 +1,5 @@
- <?php
-  
+ 
+<?php
 function send_LINE($msg){
  // token from line api
  $access_token = 'IkA0NfE3wTrE7lxdnwE2DFgyAWpvOtTMTsXlNt96hJSIBtY/CZF/Tyoaa9rb2cCWqEvbWkN2o8mvlqryWqKOkaagtybWV1/KnI13+qhCBuC8o0n3ZYbvF4g254TeJivbFmnIBKl/c+wT7bP+RekmjwdB04t89/1O/w1cDnyilFU='; 
@@ -28,8 +28,7 @@ function send_LINE($msg){
       curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
       $result = curl_exec($ch);
       curl_close($ch);
-     echo "ได้ส่งข้อความผ่านไลน์แล้ว";
+
       echo $result . "\r\n"; 
 }
-
 ?>
